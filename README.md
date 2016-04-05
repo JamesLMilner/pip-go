@@ -32,4 +32,5 @@ Based on the example code given in [this article]( https://www.ecse.rpi.edu/Home
 
 ## License
 MIT License
-Original C code copyright Wm. Randolph Franklin
+Original C code : Copyright (c) 1970-2003, Wm. Randolph Franklin
+Modified Go code: Copyright 2016 James Milner
