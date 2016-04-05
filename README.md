@@ -27,7 +27,7 @@ Detect if a point is within a given polygon.
 
 ## Credit
 
-Based on the example code given in [this StackOverflow post](http://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon), which in turn is based on [this article]( https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html)
+Based on the example code given in [this article]( https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html) by W. Randolph Franklin. The method is named PNPOLY.
 
 
 ## License
