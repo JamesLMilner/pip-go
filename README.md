@@ -31,4 +31,5 @@ Based on the example code given in [this article]( https://www.ecse.rpi.edu/Home
 
 
 ## License
-MIT
+MIT License
+Original C code copyright Wm. Randolph Franklin
