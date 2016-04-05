@@ -31,10 +31,9 @@ func PointInPolygon(pt Point, poly Polygon) bool {
 
 		for i := 1; i < nverts; {
 
-			if (
-			 (verts[i].Y > pt.Y) != (verts[j].Y > pt.Y)) &&
-			 (pt.X < (verts[j].X - verts[i].X) * (pt.Y - verts[i].Y) / (verts[j].Y - verts[i].Y) + verts[i].X) {
-				intersect = !intersect
+			if ((verts[i].Y > pt.Y) != (verts[j].Y > pt.Y)) &&
+			 	 (pt.X < (verts[j].X - verts[i].X) * (pt.Y - verts[i].Y) / (verts[j].Y - verts[i].Y) + verts[i].X) {
+				     intersect = !intersect
 			}
 
 			j = i
