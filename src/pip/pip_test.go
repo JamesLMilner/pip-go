@@ -4,7 +4,6 @@ import (
 	"testing"
 	"pip"
 	"strconv"
-
 )
 
 func TestPip(t *testing.T) {
@@ -106,6 +105,49 @@ func BenchmarkPip(b *testing.B) {
 	pip.PointInPolygon(pt16, rectangle)
 
 }
+
+
+func BenchmarkPipParallelOneMil(b *testing.B) {
+
+	for n := 0; n < 1000000; n++ {
+		benchmarkPipParallel(b)
+	}
+
+}
+
+func benchmarkPipParallel( b *testing.B) {
+
+	rectangle := pip.Polygon{
+		Points : []pip.Point {
+			pip.Point{X : 1.0, Y : 1.0},
+			pip.Point{X : 1.0, Y : 2.0},
+			pip.Point{X : 2.0, Y : 2.0},
+			pip.Point{X : 2.0, Y : 1.0},
+		},
+	}
+
+	pts := []pip.Point{ pip.Point{X : 1.1,  Y : 1.1},
+					 pip.Point{X : 1.2,  Y : 1.2},
+					 pip.Point{X : 1.3,  Y : 1.3} ,
+					 pip.Point{X : 1.4,  Y : 1.4} ,
+					 pip.Point{X : 1.5,  Y : 1.5} ,
+					 pip.Point{X : 1.6,  Y : 1.6} ,
+					 pip.Point{X : 1.7,  Y : 1.7} ,
+					 pip.Point{X : 1.8,  Y : 1.8} ,
+
+					 pip.Point{X : -4.9,  Y : 1.2} ,
+					 pip.Point{X : 10.0, Y : 10.0},
+					 pip.Point{X : -5.0,  Y : -6.0},
+					 pip.Point{X : -13.0, Y : 1.0} ,
+					 pip.Point{X : 4.9,  Y : -1.2} ,
+					 pip.Point{X : 10.0, Y : -10.0},
+					 pip.Point{X : 5.0,  Y : 6.0} ,
+					 pip.Point{X : -13.0, Y : 1.0} }
+
+	pip.ParallelPointInPolygon(pts, rectangle, 8)
+
+}
+
 
 func assert(a bool, b bool, t *testing.T) bool {
 	test :=  a == b
