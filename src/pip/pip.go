@@ -3,7 +3,7 @@ package pip
 import (
     "sync"
     "runtime"
-//    "fmt"
+    //"fmt"
 )
 
 type Point struct {
@@ -102,7 +102,7 @@ func ParallelPointInPolygon(pts []Point, poly Polygon, numcores int) []Point {
 
         }()
 
-        start = size +  1
+        start = size
     }
 
     wg.Wait()

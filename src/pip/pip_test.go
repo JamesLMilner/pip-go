@@ -144,7 +144,7 @@ func benchmarkPipParallel( b *testing.B) {
 					 pip.Point{X : 5.0,  Y : 6.0} ,
 					 pip.Point{X : -13.0, Y : 1.0} }
 
-	pip.ParallelPointInPolygon(pts, rectangle, 8)
+	pip.ParallelPointInPolygon(pts, rectangle, 1)
 
 }
 
