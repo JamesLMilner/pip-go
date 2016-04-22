@@ -174,7 +174,7 @@ func BenchmarkPipParallelOneMillion(b *testing.B) {
 	b.StartTimer()
 	// Actually test the function
 	for n := 0; n < b.N; n++ {
-		pip.PointInPolygonParallel(pts, polygon, 8)
+		pip.PointInPolygonParallel(pts, polygon, 7)
 	}
 
 }

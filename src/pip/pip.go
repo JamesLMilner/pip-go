@@ -3,7 +3,6 @@ package pip
 import (
     "sync"
     "runtime"
-  //  "fmt"
 )
 
 type Point struct {
@@ -71,15 +70,13 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 
     MAXPROCS := MaxParallelism()
     runtime.GOMAXPROCS(MAXPROCS)
-    //fmt.Println(MAXPROCS, " ", numcores)
+
     if numcores > MAXPROCS {
         numcores = MAXPROCS
     }
 
     start := 0
     inside := []Point{}
-
-    c := make(chan Point, len(pts) + 1)
 
     var wg sync.WaitGroup
     wg.Add(numcores)
@@ -88,15 +85,13 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 
         size := (len(pts) / numcores) * i
         batch := pts[start:size]
-        //fmt.Println(i, " BATCH: ", len(pts), len(batch), start, size)
 
         go func() {
             defer wg.Done()
-
             for j:=0; j < len(batch); j++ {
                 pt := batch[j]
                 if PointInPolygon(pt, poly) {
-                    c <- pt
+                    inside = append(inside, pt)
                 }
             }
 
@@ -106,11 +101,6 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
     }
 
     wg.Wait()
-    close(c)
-
-    for p := range c {
-	  inside = append(inside, p)
-    }
 
     return inside
 
