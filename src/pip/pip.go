@@ -3,7 +3,7 @@ package pip
 import (
     "sync"
     "runtime"
-    //"fmt"
+  //  "fmt"
 )
 
 type Point struct {
@@ -66,12 +66,12 @@ func MaxParallelism() int {
 }
 
 
-func ParallelPointInPolygon(pts []Point, poly Polygon, numcores int) []Point {
+func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 
 
     MAXPROCS := MaxParallelism()
     runtime.GOMAXPROCS(MAXPROCS)
-
+    //fmt.Println(MAXPROCS, " ", numcores)
     if numcores > MAXPROCS {
         numcores = MAXPROCS
     }
@@ -117,36 +117,31 @@ func ParallelPointInPolygon(pts []Point, poly Polygon, numcores int) []Point {
 }
 
 func PointInBoundingBox(pt Point, bb BoundingBox) bool {
+	// Check if point is in bounding box
 
-	bbMaxX := bb.TopRight.X
-	bbMaxY := bb.TopRight.Y
-	bbMinX := bb.BottomLeft.X
-	bbMinY := bb.BottomLeft.Y
-
-	return pt.X < bbMaxX && pt.X > bbMinX &&
-	 	   pt.Y < bbMaxY && pt.Y > bbMinY
+	// Bottom Left is the smallest and x and y value
+	// Top Right is the largest x and y value
+	return pt.X < bb.TopRight.X && pt.X > bb.BottomLeft.X &&
+	 	   	 pt.Y < bb.TopRight.Y && pt.Y > bb.BottomLeft.Y
 
 }
 
 func GetBoundingBox(poly Polygon) BoundingBox {
 
-	maxX := 0.0
-	maxY := 0.0
-	minX := 0.0
-	minY := 0.0
+	var maxX, maxY, minX, minY float64
 
 	for i := 0; i < len(poly.Points); i++ {
 		side := poly.Points[i]
 
-		if side.X > maxX { maxX = side.X }
-		if side.Y > maxX { maxY = side.Y }
-		if side.X < minX { minX = side.X }
-		if side.Y < minY { minY = side.Y }
+		if side.X > maxX || maxX == 0.0 { maxX = side.X }
+		if side.Y > maxY || maxY == 0.0 { maxY = side.Y }
+		if side.X < minX || minX == 0.0 { minX = side.X }
+		if side.Y < minY || minY == 0.0 { minY = side.Y }
 	}
 
 	return BoundingBox{
 			BottomLeft : Point{ X: minX, Y : minY},
-			TopRight     : Point{ X: maxX, Y : maxY},
+			TopRight   : Point{ X: maxX, Y : maxY},
 		}
 
 }

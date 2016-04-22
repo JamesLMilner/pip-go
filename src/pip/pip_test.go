@@ -4,6 +4,7 @@ import (
 	"testing"
 	"pip"
 	"strconv"
+	"math/rand"
 )
 
 func TestPip(t *testing.T) {
@@ -106,45 +107,75 @@ func BenchmarkPip(b *testing.B) {
 
 }
 
+func BenchmarkPipOneMillion(b *testing.B) {
 
-func BenchmarkPipParallelOneMil(b *testing.B) {
+	// Setup, let's not time this
+	b.StopTimer()
+	polygon := pip.Polygon{
+		Points : []pip.Point {
+			pip.Point{X : 0.0, Y : 0.0},
+			pip.Point{X : 30.0, Y : 50.0},
+			pip.Point{X : 0.0, Y : 100.0},
+			pip.Point{X : 50.0, Y : 70.0},
+			pip.Point{X : 100.0, Y : 100.0},
+			pip.Point{X : 70.0, Y : 50.0},
+			pip.Point{X : 100.0, Y : 0.0},
+			pip.Point{X : 50.0, Y : 30.0},
+		},
+	}
 
-	for n := 0; n < 1000000; n++ {
-		benchmarkPipParallel(b)
+	var x float64
+	var y float64
+	var pts []pip.Point
+
+	for i := 0; i < 1000000; i++ {
+		x = 100.0 * rand.Float64()
+		y = 100.0 * rand.Float64()
+		pts =	append(pts, pip.Point{X : x, Y : y})
+	}
+
+	b.StartTimer()
+	// Actually test the function
+	for n := 0; n < b.N; n++ {
+		for j := 0; j < len(pts); j++ {
+			pip.PointInPolygon(pts[j], polygon)
+		}
 	}
 
 }
 
-func benchmarkPipParallel( b *testing.B) {
+func BenchmarkPipParallelOneMillion(b *testing.B) {
 
-	rectangle := pip.Polygon{
+	// Setup, let's not time this
+	b.StopTimer()
+	polygon := pip.Polygon{
 		Points : []pip.Point {
-			pip.Point{X : 1.0, Y : 1.0},
-			pip.Point{X : 1.0, Y : 2.0},
-			pip.Point{X : 2.0, Y : 2.0},
-			pip.Point{X : 2.0, Y : 1.0},
+			pip.Point{X : 0.0, Y : 0.0},
+			pip.Point{X : 30.0, Y : 50.0},
+			pip.Point{X : 0.0, Y : 100.0},
+			pip.Point{X : 50.0, Y : 70.0},
+			pip.Point{X : 100.0, Y : 100.0},
+			pip.Point{X : 70.0, Y : 50.0},
+			pip.Point{X : 100.0, Y : 0.0},
+			pip.Point{X : 50.0, Y : 30.0},
 		},
 	}
 
-	pts := []pip.Point{ pip.Point{X : 1.1,  Y : 1.1},
-					 pip.Point{X : 1.2,  Y : 1.2},
-					 pip.Point{X : 1.3,  Y : 1.3} ,
-					 pip.Point{X : 1.4,  Y : 1.4} ,
-					 pip.Point{X : 1.5,  Y : 1.5} ,
-					 pip.Point{X : 1.6,  Y : 1.6} ,
-					 pip.Point{X : 1.7,  Y : 1.7} ,
-					 pip.Point{X : 1.8,  Y : 1.8} ,
+	var x float64
+	var y float64
+	var pts []pip.Point
 
-					 pip.Point{X : -4.9,  Y : 1.2} ,
-					 pip.Point{X : 10.0, Y : 10.0},
-					 pip.Point{X : -5.0,  Y : -6.0},
-					 pip.Point{X : -13.0, Y : 1.0} ,
-					 pip.Point{X : 4.9,  Y : -1.2} ,
-					 pip.Point{X : 10.0, Y : -10.0},
-					 pip.Point{X : 5.0,  Y : 6.0} ,
-					 pip.Point{X : -13.0, Y : 1.0} }
+	for i := 0; i < 1000000; i++ {
+		x = 100.0 * rand.Float64()
+		y = 100.0 * rand.Float64()
+		pts =	append(pts, pip.Point{X : x, Y : y})
+	}
 
-	pip.ParallelPointInPolygon(pts, rectangle, 1)
+	b.StartTimer()
+	// Actually test the function
+	for n := 0; n < b.N; n++ {
+		pip.PointInPolygonParallel(pts, polygon, 8)
+	}
 
 }
 
