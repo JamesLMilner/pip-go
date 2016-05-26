@@ -25,33 +25,31 @@ func PointInPolygon(pt Point, poly Polygon) bool {
 	// Checks if point is inside polygon
 
 	bb := GetBoundingBox(poly)
-	if PointInBoundingBox(pt, bb) {
-		// If the point is in the bounding box then we need to check the polygon
-
-		nverts := len(poly.Points)
-		intersect := false
-
-		verts := poly.Points
-		j := 0
-
-		for i := 1; i < nverts; {
-
-			if ((verts[i].Y > pt.Y) != (verts[j].Y > pt.Y)) &&
-			   (pt.X < (verts[j].X - verts[i].X) * (pt.Y - verts[i].Y) / (verts[j].Y - verts[i].Y) + verts[i].X) {
-				intersect = !intersect
-			}
-
-			j = i
-			i++
-
-		}
-
-		return intersect
-
-	} else {
-		// Else we can just return false because it's outside the bounding box
+	if ! PointInBoundingBox(pt, bb) {
 		return false
 	}
+	
+	// If the point is in the bounding box then we need to check the polygon
+
+	nverts := len(poly.Points)
+	intersect := false
+
+	verts := poly.Points
+	j := 0
+
+	for i := 1; i < nverts; {
+
+		if ((verts[i].Y > pt.Y) != (verts[j].Y > pt.Y)) &&
+		   (pt.X < (verts[j].X - verts[i].X) * (pt.Y - verts[i].Y) / (verts[j].Y - verts[i].Y) + verts[i].X) {
+			intersect = !intersect
+		}
+
+		j = i
+		i++
+
+	}
+
+	return intersect
 
 }
 
