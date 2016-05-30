@@ -38,7 +38,7 @@ func PointInPolygon(pt Point, poly Polygon) bool {
 	verts := poly.Points
 	j := 0
 
-	for i := 1; i < nverts; {
+	for i := 1; i < nverts; i++ {
 
 		if ((verts[i].Y > pt.Y) != (verts[j].Y > pt.Y)) &&
 			(pt.X < (verts[j].X-verts[i].X)*(pt.Y-verts[i].Y)/(verts[j].Y-verts[i].Y)+verts[i].X) {
@@ -46,7 +46,6 @@ func PointInPolygon(pt Point, poly Polygon) bool {
 		}
 
 		j = i
-		i++
 
 	}
 
