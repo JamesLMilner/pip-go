@@ -1,6 +1,6 @@
 # :dart: Point in Polygon - Go
 
-Detect if a point is within a given polygon.
+Detect if a point (X, Y) is within a given polygon (Set of X, Ys) .
 
 ## Usage
 
@@ -22,8 +22,10 @@ Detect if a point is within a given polygon.
 
 ## Caveats
 
-* Currently no support for holes although this should be easy to account for if hole is tested as a separate polygon.
+* Currently no support for holes although this should be easy to account for if the hole is tested as a separate polygon.
 * Currently no support for points that reside on edges (returns outside, i.e. false).
+* Beware of roundoff errors
+* The direction that you list the vertices (clockwise or counterclockwise) does not matter.
 
 ## Credit
 
