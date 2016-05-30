@@ -78,7 +78,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 	var wg sync.WaitGroup
 	wg.Add(numcores)
 
-	for i := 1; i < numcores+1; i++ {
+	for i := 1; i <= numcores; i++ {
 
 		size := (len(pts) / numcores) * i
 		batch := pts[start:size]
