@@ -2,9 +2,10 @@ package pip_test
 
 import (
 	"math/rand"
-	"pip"
 	"strconv"
 	"testing"
+
+	"github.com/JamesMilnerUK/pip-go"
 )
 
 func TestPip(t *testing.T) {
