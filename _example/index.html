@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>pip-go</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+<script>
+$(function() {
+  var canvas = $("#canvas")[0];
+  var ctx = canvas.getContext('2d');
+
+  function drawPolygon(points, color) {
+    ctx.fillStyle = color;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(points[0].X, points[0].Y);
+    for (var n=1 ; n < points.length-1 ; n++)
+      ctx.lineTo(points[n].X, points[n].Y)
+    ctx.closePath();
+    ctx.fill();
+  }
+  var points;
+  $.getJSON("/polygon", function(data) {
+    points = data.Points;
+    drawPolygon(points, 'blue');
+  });
+  $('#canvas').click(function(e) {
+    $.getJSON("/hit", {x: e.offsetX, y: e.offsetY}, function(data) {
+      if (data.result) {
+        drawPolygon(points, 'red');
+        setTimeout(function() {
+          drawPolygon(points, 'blue');
+        }, 100);
+      }
+    });
+  });
+});
+</script>
+</script>
+</head>
+<body>
+<canvas id="canvas" width="500px" height="500px"></canvas>
+</body>
+</html>
