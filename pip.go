@@ -74,6 +74,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 	start := 0
 	inside := []Point{}
 
+	var m sync.Mutex
 	var wg sync.WaitGroup
 	wg.Add(numcores)
 
@@ -87,7 +88,9 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 			for j := 0; j < len(batch); j++ {
 				pt := batch[j]
 				if PointInPolygon(pt, poly) {
+					m.Lock()
 					inside = append(inside, pt)
+					m.Unlock()
 				}
 			}
 
