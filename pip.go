@@ -83,7 +83,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 		size := (len(pts) / numcores) * i
 		batch := pts[start:size]
 
-		go func() {
+		go func(batch []Point) {
 			defer wg.Done()
 			for j := 0; j < len(batch); j++ {
 				pt := batch[j]
@@ -94,7 +94,7 @@ func PointInPolygonParallel(pts []Point, poly Polygon, numcores int) []Point {
 				}
 			}
 
-		}()
+		}(batch)
 
 		start = size
 	}
