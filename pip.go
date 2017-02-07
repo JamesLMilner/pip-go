@@ -142,31 +142,3 @@ func GetBoundingBox(poly Polygon) BoundingBox {
 	}
 
 }
-
-func GetBoundingBox(poly Polygon) BoundingBox {
-
-	var maxX, maxY, minX, minY float64
-
-	for i := 0; i < len(poly.Points); i++ {
-		side := poly.Points[i]
-
-		if side.X > maxX || maxX == 0.0 {
-			maxX = side.X
-		}
-		if side.Y > maxY || maxY == 0.0 {
-			maxY = side.Y
-		}
-		if side.X < minX || minX == 0.0 {
-			minX = side.X
-		}
-		if side.Y < minY || minY == 0.0 {
-			minY = side.Y
-		}
-	}
-
-	return BoundingBox{
-		BottomLeft: Point{X: minX, Y: minY},
-		TopRight:   Point{X: maxX, Y: maxY},
-	}
-
-}
