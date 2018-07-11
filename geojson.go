@@ -52,9 +52,7 @@ func PointInGeoJsonBoundingBox(x float64, y float64, bb []float64) bool {
 
 	// Bottom Left is the smallest and x and y value
 	// Top Right is the largest x and y value
-	return x < bb[0] && x > bb[0] &&
-		y < bb[1] && y > bb[1]
-
+	return x >= bb[0] && x <= bb[2] && y >= bb[1] && y <= bb[3]
 }
 
 func GetBoundingBoxFromGeoJson(poly [][]float64) []float64 {
@@ -67,14 +65,14 @@ func GetBoundingBoxFromGeoJson(poly [][]float64) []float64 {
 		if side[0] > maxX || maxX == 0.0 {
 			maxX = side[0]
 		}
-		if side[0] > maxY || maxY == 0.0 {
-			maxY = side[0]
+		if side[1] > maxY || maxY == 0.0 {
+			maxY = side[1]
 		}
 		if side[0] < minX || minX == 0.0 {
 			minX = side[0]
 		}
-		if side[0] < minY || minY == 0.0 {
-			minY = side[0]
+		if side[1] < minY || minY == 0.0 {
+			minY = side[1]
 		}
 
 	}
